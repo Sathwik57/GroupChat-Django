@@ -1,0 +1,36 @@
+version: "3"
+
+volumes:
+  local_postgres_data: {}
+  
+services:
+  django: &django
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    image: groupchat_app
+    container_name: django
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - .:/app:z
+    env_file:
+      - ./.env/.local
+    ports: 
+      - "8000:8000"
+    command: /start
+
+  postgres:
+    image: postgres:14.1
+    container_name: postgres
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data:Z
+    env_file:
+      - ./.env/.local
+  
+  redis:
+    image: redis:6
+    container_name: redis
+    ports: 
+      - "6379:6379"

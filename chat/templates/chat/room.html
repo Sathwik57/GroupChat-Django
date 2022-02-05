@@ -1,0 +1,137 @@
+<!-- chat/templates/chat/room.html -->
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Chat Room</title>
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300" rel="stylesheet"
+    type="text/css" />
+
+  <script src="https://use.typekit.net/hoy3lrg.js"></script>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!------ Include the above in your HEAD tag ---------->
+
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script>
+    try {
+      Typekit.load({ async: true });
+    } catch (e) { }
+  </script>
+  <link rel="stylesheet prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+  <link rel="stylesheet prefetch"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="{% static 'style.css'%}" />
+</head>
+
+<body>
+  <div id="frame">
+    <div id="sidepanel">
+      <div id="profile">
+        <div class="wrap">
+          <img id="profile-img" src="http://emilcarlsson.se/assets/mikeross.png" class="online"
+            alt="http://emilcarlsson.se/assets/mikeross.png" />
+          <p>{{username}}</p>
+          <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
+          <div id="status-options">
+            <ul>
+              <li id="status-online" class="active">
+                <span class="status-circle"></span>
+                <p>Online</p>
+              </li>
+              <li id="status-away">
+                <span class="status-circle"></span>
+                <p>Away</p>
+              </li>
+              <li id="status-busy">
+                <span class="status-circle"></span>
+                <p>Busy</p>
+              </li>
+              <li id="status-offline">
+                <span class="status-circle"></span>
+                <p>Offline</p>
+              </li>
+            </ul>
+          </div>
+          <div id="expanded">
+            <label for="twitter"><i class="fa fa-facebook fa-fw" aria-hidden="true"></i></label>
+            <input name="twitter" type="text" value="mikeross" />
+            <label for="twitter"><i class="fa fa-twitter fa-fw" aria-hidden="true"></i></label>
+            <input name="twitter" type="text" value="ross81" />
+            <label for="twitter"><i class="fa fa-instagram fa-fw" aria-hidden="true"></i></label>
+            <input name="twitter" type="text" value="mike.ross" />
+          </div>
+        </div>
+      </div>
+      <div id="search">
+        <label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
+        <input type="text" placeholder="Search contacts..." />
+      </div>
+      <div id="contacts">
+        <ul>
+          {% for grp in groups%}
+          <li class="contact">
+            <div class="wrap">
+              <span class="contact-status online"></span>
+              <img src="" alt="http://emilcarlsson.se/assets/louislitt.png" />
+              <div class="meta">
+                <a href="{%url 'chat:chat' grp%}" style="color: aliceblue; text-decoration: none;">
+                  <p class="name">{{grp}}</p>
+                </a>
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="content">
+      <div class="contact-profile">
+        <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+        <p>{{room_name}}</p>
+        <div class="social-media">
+          <a href="https://mail.google.com/mail/u/0/?view=cm&to=sathwikrc2012@gmail.com&sub=Hello" 
+          target="_blank" style="color: darkgrey">
+            <i class="fa fa-envelope fa-lg" aria-hidden="true" >          
+            </i>
+            </a>
+
+          <a href="https://github.com/Sathwik57" target="_blank" style="text-decoration: none;color: darkgrey;">
+            <i class="fa fa-github fa-lg" aria-hidden="true"></i>
+          </a>
+          <a href="https://github.com/Sathwik57" target="_blank" style="color: darkgrey">
+            <i class="fa fa-linkedin fa-lg" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+      <div class="messages">
+        <ul id="chat-log">
+        </ul>
+      </div>
+      <div class="message-input">
+        <div class="wrap">
+          <input id="chat-message-input" type="text" placeholder="Write your message..." />
+          <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
+          <button class="submit" id="chat-message-submit">
+            <i class="fa fa-paper-plane" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+</body>
+{{ room_name|json_script:"room-name" }}
+{{ username|json_script:"username" }}
+<script src="{% static 'reconnecting-websocket.js' %}"></script>
+<script src="{% static 'websocket.js' %}"></script>
+</body>
+
+</html>
